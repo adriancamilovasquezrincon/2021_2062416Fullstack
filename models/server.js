@@ -2,7 +2,12 @@ import express from 'express';
 import cors from 'cors';
 import dbConection from '../database/config.js';
 
-import categoria from '../models/categoria.js';
+import categoria from '../routes/categoria.js';
+import usuario from '../routes/usuario.js';
+import articulo from '../routes/articulo.js';
+import venta from '../routes/venta.js';
+import compra from '../routes/compra.js'
+import persona from '../routes/persona.js'
 class Server{
     constructor (){
         // crear servidor
@@ -17,7 +22,12 @@ class Server{
     }
 
     routes(){
-        this.app.use('/api/categoria',categoria)
+        this.app.use('/api/categoria',categoria),
+        this.app.use('/api/usuarios',usuario),
+        this.app.use('/api/articulos',articulo),
+        this.app.use('/api/ventas',venta),
+        this.app.use('/api/compras',compra),
+        this.app.use('/api/personas',persona)
     }
 
 

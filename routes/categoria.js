@@ -1,13 +1,41 @@
-import {Router} from 'express'
-import {categoriaGet, categoriaPost, categoriaById} from '../controllers/categoria.js';
+import { Router } from 'express';
+import { check } from 'express-validator';
+import { categorias } from '../controllers/categoria.js';
+import { existeCategoriaById } from '../db-helpers/categoria.js';
+import { validarCampos } from '../middlewares/validarCampos.js';
+import { existeCategoriaByNombre } from '../db-helpers/categoria.js';
 
-const router=Router();
-router.get('/',categoriaGet);
-router.get('/:id',categoriaById);
-router.post('/',categoriaPost);
-router.put('/:id');
-router.put('/activar/:id');
-router.put('desactivar/:id');
-router.delete('/:id');
+const router = Router();
+router.get('/', categorias.categoriaGet);
+router.get('/:id', [
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom(existeCategoriaById),
+    validarCampos
+], categorias.categoriaById);
+
+router.post('/', [
+    check('nombre', 'El nombre es obligatorio para su Categoria').not().isEmpty(),
+    check('nombre').custom(existeCategoriaByNombre),
+    validarCampos
+],
+    categorias.categoriaPost);
+
+router.put('/:id', [
+    check('id', 'No es un ID válido').isMongoId(),
+    check('id').custom(existeCategoriaById),
+    check('nombre').custom(existeCategoriaByNombre)
+], categorias.categoriaPut);
+
+router.put('/activar/:id', [check('id', 'No es un ID válido').isMongoId(),
+check('id').custom(existeCategoriaById),
+], categorias.categoriaActivar);
+
+router.put('/desactivar/:id', [check('id', 'No es un ID válido').isMongoId(),
+check('id').custom(existeCategoriaById),
+], categorias.categoriaDesactivar);
+
+router.delete('/:id', [check('id', 'No es un ID válido').isMongoId(),
+check('id').custom(existeCategoriaById),
+], categorias.categoriaDelete);
 
 export default router;
