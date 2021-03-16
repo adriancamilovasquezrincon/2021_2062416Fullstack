@@ -4,9 +4,14 @@ import {personas} from '../controllers/persona.js';
 import { existePersonaById } from '../db-helpers/persona.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { existePersonaByNombre } from '../db-helpers/persona.js';
+import {validarJWT} from '../middlewares/validar-JWT.js'
 const router=Router();
-router.get('/',personas.personaGet);
+router.get('/',[
+    validarJWT,
+    validarCampos
+],personas.personaGet);
 router.get('/:id',[
+    validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existePersonaById),
     validarCampos

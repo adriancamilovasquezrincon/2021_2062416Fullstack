@@ -1,5 +1,6 @@
 import Persona from '../models/persona.js'
 import bcryptjs from 'bcryptjs';
+
 const personas = {
     personaGet: async (req, res) => {
         const { value } = req.query;

@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken'
 import Usuario from '../models/usuario.js'
-
 const generarJWT=(id)=>{
     return new Promise((resolve,reject)=>{
         const payload={uid:id}

@@ -4,9 +4,14 @@ import { compras } from '../controllers/compra.js';
 import { existeCompraById } from '../db-helpers/compra.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { existeCompraByNombre } from '../db-helpers/compra.js';
+import {validarJWT} from '../middlewares/validar-JWT.js'
 const router = Router();
-router.get('/', compras.comprasGet);
+router.get('/',[
+    validarJWT,
+    validarCampos
+], compras.comprasGet);
 router.get('/:id', [
+    validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeCompraById),
     validarCampos

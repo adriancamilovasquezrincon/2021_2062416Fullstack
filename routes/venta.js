@@ -4,10 +4,14 @@ import {ventas} from '../controllers/venta.js';
 import { existeVentaById } from '../db-helpers/venta.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { existeVentaByNombre } from '../db-helpers/venta.js';
-
+import {validarJWT} from '../middlewares/validar-JWT.js'
 const router=Router();
-router.get('/',ventas.ventasGet);
+router.get('/',[
+    validarJWT,
+    validarCampos
+],ventas.ventasGet);
 router.get('/:id',[
+    validarJWT,
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeVentaById),
     validarCampos
