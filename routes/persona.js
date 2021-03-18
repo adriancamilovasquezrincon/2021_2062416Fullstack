@@ -17,12 +17,13 @@ router.get('/:id',[
     validarCampos
 ],personas.personaGetById);
 router.post('/',[
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existePersonaById),
-    check('nombre').custom(existePersonaByNombre)
+    check('nombre', 'El nombre es obligatorio para la Persona').not().isEmpty(),
+    check('nombre').custom(existePersonaByNombre),
+    validarCampos
 ],personas.personaPost);
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
+    check('nombre').custom(existePersonaByNombre),
     check('id').custom(existePersonaById),],personas.personaPut);
 router.put('/activar/:id',[
     check('id', 'No es un ID válido').isMongoId(),

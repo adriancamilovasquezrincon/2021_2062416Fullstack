@@ -19,13 +19,14 @@ router.get('/:id',[
     validarCampos
 ],usuarios.usuarioGetById);
 router.post('/',[
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existeUsuarioById),
-    check('nombre').custom(existeUsuarioByNombre)
+    check('nombre', 'El nombre es obligatorio para el Usuario').not().isEmpty(),
+    check('nombre').custom(existeUsuarioByNombre),
+    validarCampos
 ],usuarios.usuarioPost);
 router.post('/login',usuarios.login);
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
+    check('nombre').custom(existeUsuarioByNombre),
     check('id').custom(existeUsuarioById),],usuarios.usuarioPut);
 router.put('/activar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
