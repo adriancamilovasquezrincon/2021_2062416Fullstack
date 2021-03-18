@@ -19,7 +19,8 @@ const validarJWT=async(req,res,next)=>{
 
     const token=req.header('token')
     if(! token){
-        return res.json(401).json({
+        console.log('ok')
+        return res.status(401).json({
             msg:'No existe token en la petición'
         })
     }
