@@ -17,7 +17,7 @@ router.get('/:id',[
     validarCampos
 ],ventas.ventasById);
 router.post('/',[
-    check('usuario', 'El nombre es obligatorio para su Articulo').not().isEmpty(),
+    check('usuario', 'El usuario es obligatorio para su Articulo').not().isEmpty(),
     check('usuario').custom(existeVentaByNombre),
     validarCampos
 ],ventas.ventasPost);
