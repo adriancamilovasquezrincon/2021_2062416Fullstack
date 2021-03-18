@@ -17,11 +17,13 @@ router.get('/:id',[
     validarCampos
 ],ventas.ventasById);
 router.post('/',[
-    check('id', 'No es un ID válido').isMongoId(),
-    check('id').custom(existeVentaByNombre)
+    check('usuario', 'El nombre es obligatorio para su Articulo').not().isEmpty(),
+    check('usuario').custom(existeVentaByNombre),
+    validarCampos
 ],ventas.ventasPost);
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
+    check('usuario').custom(existeVentaByNombre),
     check('id').custom(existeVentaById),],ventas.ventasPut);
 router.put('/activar/:id',[
     check('id', 'No es un ID válido').isMongoId(),
