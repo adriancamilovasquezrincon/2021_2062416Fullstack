@@ -5,8 +5,6 @@ const ventas = {
         const venta = await Venta
             .find({
                 $or: [
-                    {usuario: new RegExp(value, 'i') },
-                    { persona: new RegExp(value, 'i') },
                     { tipoComprobante: new RegExp(value, 'i') },
                     { serieComprobante: new RegExp(value, 'i') },
                     { numComprobante: new RegExp(value, 'i') },
@@ -15,6 +13,8 @@ const ventas = {
                     { detalle: new RegExp(value, 'i') },
                 ]
             })
+            .populate('usuario', 'nombre')
+            .populate('persona','nombre')
             .sort({ 'createdAt': -1 })
         res.json({
             venta

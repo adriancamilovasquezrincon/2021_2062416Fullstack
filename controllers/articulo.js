@@ -5,7 +5,6 @@ const articulos = {
         const articulo = await Articulo
             .find({
                 $or: [
-                    { categoria: new RegExp(value, 'i') },
                     { codigo: new RegExp(value, 'i') },
                     { nombre: new RegExp(value, 'i') },
                     { descripcion: new RegExp(value, 'i') },
@@ -13,6 +12,7 @@ const articulos = {
                     { stock: new RegExp(value, 'i') },
                 ]
             })
+            .populate('categoria','nombre')
             .sort({ 'createdAt': -1 })
         res.json({
             articulo
@@ -21,8 +21,8 @@ const articulos = {
 
     articuloPost: async (req, res) => {
         console.log(req.body)
-        const { categoria, codigo, nombre, descripcion, precioVenta, stock } = req.body;
-        const articulo = new Articulo({ categoria, codigo, nombre, descripcion, precioVenta, stock })
+        const {categoria, codigo, nombre, descripcion, precioVenta, stock } = req.body;
+        const articulo = new Articulo({ categoria,codigo, nombre, descripcion, precioVenta, stock })
 
         await articulo.save();
         res.json({

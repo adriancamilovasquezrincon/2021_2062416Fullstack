@@ -1,8 +1,8 @@
 import mongoose from 'mongoose';
 
 const VentaSchema=mongoose.Schema({
-    usuario:{type:String, required:true,unique:true},
-    persona:{type:String, required:true, maxlength:50},
+    usuario:{type:mongoose.Schema.Types.ObjectId,ref:'usuario', required:true},
+    persona:{type:mongoose.Schema.Types.ObjectId,ref:'persona', required:true},
     tipoComprobante:{type:String,maxlength:20},
     serieComprobante:{type:String, maxlength:20},
     numComprobante:{type:String,maxlength:20},
