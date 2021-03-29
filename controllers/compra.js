@@ -1,4 +1,5 @@
 import Compra from '../models/compra.js'
+import Articulo from '../models/articulo.js'
 const compras = {
     comprasGet: async (req, res) => {
         const { value } = req.query;
@@ -20,13 +21,16 @@ const compras = {
             compra
         })
     },
-
     comprasPost: async (req, res) => {
         console.log(req.body)
         const { usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles } = req.body;
         const compra = new Compra({  usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles})
 
         await compra.save();
+        detalles.map((articulo)=>(
+            aumentarStock(articulo._id,articulo.cantidad))
+        )
+
         res.json({
             compra
         })
@@ -53,6 +57,7 @@ const compras = {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 1 })
 
+        aumentarStock
         res.json({
             compra
         })
@@ -61,6 +66,7 @@ const compras = {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 0 })
 
+        disminuirStock
         res.json({
             compra
         })
@@ -73,6 +79,15 @@ const compras = {
             compra
         })
     }
+},
+aumentarStock= async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)+parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+},
+disminuirStock= async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)-parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
 }
-
 export { compras };

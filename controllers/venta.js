@@ -1,4 +1,6 @@
 import Venta from '../models/venta.js'
+import Articulo from '../models/articulo.js'
+
 const ventas = {
     ventasGet: async (req, res) => {
         const { value } = req.query;
@@ -27,6 +29,10 @@ const ventas = {
         const venta = new Venta({  usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles})
 
         await venta.save();
+        detalles.map((articulo)=>(
+            aumentarStock(articulo._id,articulo.cantidad))
+        )
+        
         res.json({
             venta
         })
@@ -52,7 +58,7 @@ const ventas = {
     ventasActivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 1 })
-
+        aumentarStock
         res.json({
             venta
         })
@@ -60,7 +66,7 @@ const ventas = {
     ventasDesactivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 0 })
-
+        disminuirStock
         res.json({
             venta
         })
@@ -73,6 +79,19 @@ const ventas = {
             venta
         })
     }
+},
+aumentarStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)+parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
+},
+disminuirStock=async(id,cantidad)=>{
+    let {stock}=await Articulo.findById(id);
+    stock=parseInt(stock)-parseInt(cantidad)
+    await Articulo.findByIdAndUpdate({id},{stock})
 }
-
 export { ventas };
+
+
+
+
