@@ -23,6 +23,10 @@ router.post('/', [
     check('persona').custom(existeCompraByNombre),
     check('detalles', 'La detalles es obligatoria para su Compra').not().isEmpty(),
     check('detalles').custom(existeCompraByNombre),
+    check('impuesto', 'El impuesto es obligatorio para su Compra').not().isEmpty(),
+    check('impuesto').custom(existeCompraByNombre),
+    check('total', 'El total es obligatorio para su Compra').not().isEmpty(),
+    check('total').custom(existeCompraByNombre),
     validarCampos
 ], compras.comprasPost);
 router.put('/:id', [

@@ -23,6 +23,10 @@ router.post('/',[
     check('persona').custom(existeVentaByNombre),
     check('detalles', 'El detalle es obligatorio para su Venta').not().isEmpty(),
     check('detalles').custom(existeVentaByNombre),
+    check('impuesto', 'El impuesto es obligatorio para su Venta').not().isEmpty(),
+    check('impuesto').custom(existeVentaByNombre),
+    check('total', 'El total es obligatorio para su Venta').not().isEmpty(),
+    check('total').custom(existeVentaByNombre),
     validarCampos
 ],ventas.ventasPost);
 router.put('/:id',[
