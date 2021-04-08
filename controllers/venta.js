@@ -59,7 +59,7 @@ const ventas = {
     ventasActivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 1 })
-        venta.detalles.map((articulos)=>disminuirStock(articulos._id,articulos.cantidad))
+        disminuirStock
         res.json({
             venta
         })
@@ -67,7 +67,7 @@ const ventas = {
     ventasDesactivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 0 })
-        venta.detalles.map((articulos)=>aumentarStock(articulos._id,articulos.cantidad))
+        aumentarStock
         res.json({
             venta
         })
