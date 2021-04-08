@@ -16,7 +16,7 @@ const ventas = {
                 ]
             })
             .populate('usuario', 'nombre')
-            .populate('persona','nombre')
+            .populate('persona', 'nombre')
             .sort({ 'createdAt': -1 })
         res.json({
             venta
@@ -25,14 +25,15 @@ const ventas = {
 
     ventasPost: async (req, res) => {
         console.log(req.body)
-        const { usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles } = req.body;
-        const venta = new Venta({  usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles})
-
+        const { usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuesto, total, detalles } = req.body;
+        const venta = new Venta({ usuario, persona, tipoComprobante, serieComprobante, numComprobante, impuesto, total, detalles });
+        venta.total= venta.detalles.reduce((acc, articulos)=> acc + ((articulos.cantidad * articulos.precio)-articulos.descuento),0)
+        venta.impuesto = venta.total *0.19
         await venta.save();
-        detalles.map((articulo)=>(
-            aumentarStock(articulo._id,articulo.cantidad))
+        detalles.map((articulos) => (
+            disminuirStock(articulos._id, articulos.cantidad))
         )
-        
+
         res.json({
             venta
         })
@@ -58,7 +59,7 @@ const ventas = {
     ventasActivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 1 })
-        aumentarStock
+        venta.detalles.map((articulos)=>disminuirStock(articulos._id,articulos.cantidad))
         res.json({
             venta
         })
@@ -66,7 +67,7 @@ const ventas = {
     ventasDesactivar: async (req, res) => {
         const { id } = req.params;
         const venta = await Venta.findByIdAndUpdate(id, { estado: 0 })
-        disminuirStock
+        venta.detalles.map((articulos)=>aumentarStock(articulos._id,articulos.cantidad))
         res.json({
             venta
         })
@@ -80,16 +81,16 @@ const ventas = {
         })
     }
 },
-aumentarStock=async(id,cantidad)=>{
-    let {stock}=await Articulo.findById(id);
-    stock=parseInt(stock)+parseInt(cantidad)
-    await Articulo.findByIdAndUpdate({id},{stock})
-},
-disminuirStock=async(id,cantidad)=>{
-    let {stock}=await Articulo.findById(id);
-    stock=parseInt(stock)-parseInt(cantidad)
-    await Articulo.findByIdAndUpdate({id},{stock})
-}
+    aumentarStock = async (id, cantidad) => {
+        let { stock } = await Articulo.findById(id);
+        stock = parseInt(stock) + parseInt(cantidad)
+        await Articulo.findByIdAndUpdate({ id }, { stock })
+    },
+    disminuirStock = async (id, cantidad) => {
+        let { stock } = await Articulo.findById(id);
+        stock = parseInt(stock) - parseInt(cantidad)
+        await Articulo.findByIdAndUpdate({ id }, { stock })
+    }
 export { ventas };
 
 

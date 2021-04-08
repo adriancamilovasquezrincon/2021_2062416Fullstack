@@ -19,6 +19,20 @@ router.get('/:id',[
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para la Persona').not().isEmpty(),
     check('nombre').custom(existePersonaByNombre),
+    check('tipoPersona', 'El tipoPersona es obligatorio para la Persona').not().isEmpty(),
+    check('tipoPersona').custom(existePersonaByNombre),
+    check('tipoDocumento', 'El tipoDocumento es obligatorio para la Persona').not().isEmpty(),
+    check('tipoDocumento').custom(existePersonaByNombre),
+    check('password', 'El password es obligatorio para la Persona').not().isEmpty(),
+    check('password').custom(existePersonaByNombre),
+    check('numDocumento', 'El numDocumento es obligatorio para la Persona').not().isEmpty(),
+    check('numDocumento').custom(existePersonaByNombre),
+    check('direccion', 'El direccion es obligatorio para la Persona').not().isEmpty(),
+    check('direccion').custom(existePersonaByNombre),
+    check('telefono', 'El telefono es obligatorio para la Persona').not().isEmpty(),
+    check('telefono').custom(existePersonaByNombre),
+    check('email', 'El email es obligatorio para la Persona').not().isEmpty(),
+    check('email').custom(existePersonaByNombre),
     validarCampos
 ],personas.personaPost);
 router.put('/:id',[

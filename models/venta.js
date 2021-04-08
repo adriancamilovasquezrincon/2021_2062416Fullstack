@@ -8,7 +8,13 @@ const VentaSchema=mongoose.Schema({
     numComprobante:{type:String,maxlength:20},
     impuesto:{type:String, maxlength:20},
     total:{type:String,maxlength:15},
-    detalles:[{type:Array,maxlength:20,required:true,unique:true}],
+    detalles:[{
+        _id: {type:String, required:true},
+        articulo: {type:String, required:true},
+        cantidad: {type:Number, required:true},
+        precio: {type:Number, required:true},
+        descuento: {type:Number, required:true},
+    }],
     estado:{type:Number,default:1},
     createdAt:{type:Date,default:Date.now}
 })

@@ -19,6 +19,10 @@ router.get('/:id', [
 router.post('/', [
     check('usuario', 'El usuario es obligatorio para su Compra').not().isEmpty(),
     check('usuario').custom(existeCompraByNombre),
+    check('persona', 'La persona es obligatoria para su Compra').not().isEmpty(),
+    check('persona').custom(existeCompraByNombre),
+    check('detalles', 'La detalles es obligatoria para su Compra').not().isEmpty(),
+    check('detalles').custom(existeCompraByNombre),
     validarCampos
 ], compras.comprasPost);
 router.put('/:id', [

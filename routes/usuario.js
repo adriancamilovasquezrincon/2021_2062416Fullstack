@@ -21,6 +21,10 @@ router.get('/:id',[
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para el Usuario').not().isEmpty(),
     check('nombre').custom(existeUsuarioByNombre),
+    check('email', 'El email es obligatorio para el Usuario').not().isEmpty(),
+    check('email').custom(existeUsuarioByNombre),
+    check('password', 'El password es obligatorio para el Usuario').not().isEmpty(),
+    check('password').custom(existeUsuarioByNombre),
     validarCampos
 ],usuarios.usuarioPost);
 router.post('/login',usuarios.login);

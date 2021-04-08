@@ -26,9 +26,11 @@ const compras = {
         const { usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles } = req.body;
         const compra = new Compra({  usuario, persona,tipoComprobante,serieComprobante,numComprobante, impuesto, total, detalles})
 
+        compra.total=compra.detalles.reduce((acc, articulos)=>acc + (articulos.cantidad*articulos.precio),0)
+        compra.impuesto = compra.total * 0.19
         await compra.save();
-        detalles.map((articulo)=>(
-            aumentarStock(articulo._id,articulo.cantidad))
+        detalles.map((articulos)=>(
+            disminuirStock(articulos._id,articulos.cantidad))
         )
 
         res.json({
@@ -57,7 +59,7 @@ const compras = {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 1 })
 
-        aumentarStock
+        detalles.map((articulos) => disminuirStock(articulos._id,articulos.cantidad))
         res.json({
             compra
         })
@@ -65,8 +67,7 @@ const compras = {
     comprasDesactivar: async (req, res) => {
         const { id } = req.params;
         const compra = await Compra.findByIdAndUpdate(id, { estado: 0 })
-
-        disminuirStock
+        detalles.map((articulos) => aumentarStock(articulos._id,articulos.cantidad))
         res.json({
             compra
         })
