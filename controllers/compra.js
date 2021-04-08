@@ -9,9 +9,7 @@ const compras = {
                     { tipoComprobante: new RegExp(value, 'i') },
                     { serieComprobante: new RegExp(value, 'i') },
                     { numComprobante: new RegExp(value, 'i') },
-                    { impuesto: new RegExp(value, 'i') },
-                    { total: new RegExp(value, 'i') },
-                    { detalle: new RegExp(value, 'i') },
+                    { detalles: new RegExp(value, 'i') },
                 ]
             })
             .populate('usuario', 'nombre')
