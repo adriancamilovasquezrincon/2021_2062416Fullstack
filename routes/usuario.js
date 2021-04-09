@@ -19,7 +19,7 @@ router.get('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
     check('id').custom(existeUsuarioById),
     validarCampos
-],usuarios.usuarioGetById);jjj
+],usuarios.usuarioGetById);
 router.post('/',[
     check('nombre', 'El nombre es obligatorio para el Usuario').not().isEmpty(),
     check('nombre').custom(existeUsuarioByNombre),

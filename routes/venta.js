@@ -36,7 +36,6 @@ router.post('/',[
 ],ventas.ventasPost);
 router.put('/:id',[
     check('id', 'No es un ID válido').isMongoId(),
-    check('usuario').custom(existeVentaByNombre),
     check('id').custom(existeVentaById),],ventas.ventasPut);
 router.put('/activar/:id',[
     check('id', 'No es un ID válido').isMongoId(),

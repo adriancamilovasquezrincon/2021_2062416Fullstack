@@ -35,7 +35,6 @@ router.post('/', [
 ], compras.comprasPost);
 router.put('/:id', [
     check('id', 'No es un ID válido').isMongoId(),
-    check('usuario').custom(existeCompraByNombre),
     check('id').custom(existeCompraById),], compras.comprasPut);
 router.put('/activar/:id', [
     check('id', 'No es un ID válido').isMongoId(),
