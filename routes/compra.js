@@ -3,7 +3,11 @@ import { check } from 'express-validator';
 import { compras } from '../controllers/compra.js';
 import { existeCompraById } from '../db-helpers/compra.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
-import { existeCompraByNombre } from '../db-helpers/compra.js';
+import { existeCompraByUsuario } from '../db-helpers/compra.js';
+import { existeCompraByPersona } from '../db-helpers/compra.js';
+import { existeCompraByDetalles } from '../db-helpers/compra.js';
+import { existeCompraByImpuesto } from '../db-helpers/compra.js';
+import { existeCompraByTotal } from '../db-helpers/compra.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 const router = Router();
 router.get('/',[
@@ -18,15 +22,15 @@ router.get('/:id', [
 ], compras.comprasById);
 router.post('/', [
     check('usuario', 'El usuario es obligatorio para su Compra').not().isEmpty(),
-    check('usuario').custom(existeCompraByNombre),
+    check('usuario').custom(existeCompraByUsuario),
     check('persona', 'La persona es obligatoria para su Compra').not().isEmpty(),
-    check('persona').custom(existeCompraByNombre),
+    check('persona').custom(existeCompraByPersona),
     check('detalles', 'La detalles es obligatoria para su Compra').not().isEmpty(),
-    check('detalles').custom(existeCompraByNombre),
+    check('detalles').custom(existeCompraByDetalles),
     check('impuesto', 'El impuesto es obligatorio para su Compra').not().isEmpty(),
-    check('impuesto').custom(existeCompraByNombre),
+    check('impuesto').custom(existeCompraByImpuesto),
     check('total', 'El total es obligatorio para su Compra').not().isEmpty(),
-    check('total').custom(existeCompraByNombre),
+    check('total').custom(existeCompraByTotal),
     validarCampos
 ], compras.comprasPost);
 router.put('/:id', [

@@ -4,6 +4,14 @@ import {personas} from '../controllers/persona.js';
 import { existePersonaById } from '../db-helpers/persona.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { existePersonaByNombre } from '../db-helpers/persona.js';
+import { existePersonaBytipoPersona } from '../db-helpers/persona.js';
+import { existePersonaBytipoDocumento } from '../db-helpers/persona.js';
+import { existePersonaByPassword } from '../db-helpers/persona.js';
+import { existePersonaBynumDocumento } from '../db-helpers/persona.js';
+import { existePersonaByDireccion } from '../db-helpers/persona.js';
+import { existePersonaByTelefono } from '../db-helpers/persona.js';
+import { existePersonaByEmail } from '../db-helpers/persona.js';
+
 import {validarJWT} from '../middlewares/validar-JWT.js'
 const router=Router();
 router.get('/',[
@@ -20,19 +28,19 @@ router.post('/',[
     check('nombre', 'El nombre es obligatorio para la Persona').not().isEmpty(),
     check('nombre').custom(existePersonaByNombre),
     check('tipoPersona', 'El tipoPersona es obligatorio para la Persona').not().isEmpty(),
-    check('tipoPersona').custom(existePersonaByNombre),
+    check('tipoPersona').custom(existePersonaBytipoPersona),
     check('tipoDocumento', 'El tipoDocumento es obligatorio para la Persona').not().isEmpty(),
-    check('tipoDocumento').custom(existePersonaByNombre),
+    check('tipoDocumento').custom(existePersonaBytipoDocumento),
     check('password', 'El password es obligatorio para la Persona').not().isEmpty(),
-    check('password').custom(existePersonaByNombre),
+    check('password').custom(existePersonaByPassword),
     check('numDocumento', 'El numDocumento es obligatorio para la Persona').not().isEmpty(),
-    check('numDocumento').custom(existePersonaByNombre),
+    check('numDocumento').custom(existePersonaBynumDocumento),
     check('direccion', 'El direccion es obligatorio para la Persona').not().isEmpty(),
-    check('direccion').custom(existePersonaByNombre),
+    check('direccion').custom(existePersonaByDireccion),
     check('telefono', 'El telefono es obligatorio para la Persona').not().isEmpty(),
-    check('telefono').custom(existePersonaByNombre),
+    check('telefono').custom(existePersonaByTelefono),
     check('email', 'El email es obligatorio para la Persona').not().isEmpty(),
-    check('email').custom(existePersonaByNombre),
+    check('email').custom(existePersonaByEmail),
     validarCampos
 ],personas.personaPost);
 router.put('/:id',[

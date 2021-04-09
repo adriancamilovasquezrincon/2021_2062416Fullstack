@@ -4,6 +4,11 @@ import { articulos } from '../controllers/articulo.js';
 import { existeArticuloById } from '../db-helpers/articulo.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
 import { existeArticuloByNombre } from '../db-helpers/articulo.js';
+import { existeArticuloByCategoria } from '../db-helpers/articulo.js';
+import { existeArticuloByCodigo } from '../db-helpers/articulo.js';
+import { existeArticuloByDescripcion } from '../db-helpers/articulo.js';
+import { existeArticuloByprecioVenta } from '../db-helpers/articulo.js';
+import { existeArticuloByStock } from '../db-helpers/articulo.js';
 import {validarJWT} from '../middlewares/validar-JWT.js'
 const router = Router();
 router.get('/',[
@@ -20,15 +25,15 @@ router.post('/', [
     check('nombre', 'El nombre es obligatorio para su Articulo').not().isEmpty(),
     check('nombre').custom(existeArticuloByNombre),
     check('categoria', 'La categoria es obligatoria para su Articulo').not().isEmpty(),
-    check('categoria').custom(existeArticuloByNombre),
+    check('categoria').custom(existeArticuloByCategoria),
     check('codigo', 'El código es obligatorio para su Articulo').not().isEmpty(),
-    check('codigo').custom(existeArticuloByNombre),
+    check('codigo').custom(existeArticuloByCodigo),
     check('descripcion', 'La descripcion es obligatoria para su Articulo').not().isEmpty(),
-    check('descripcion').custom(existeArticuloByNombre),
+    check('descripcion').custom(existeArticuloByDescripcion),
     check('precioVenta', 'El precio de venta es obligatorio para su Articulo').not().isEmpty(),
-    check('precioVenta').custom(existeArticuloByNombre),
+    check('precioVenta').custom(existeArticuloByprecioVenta),
     check('stock', 'El stock es obligatorio para su Articulo').not().isEmpty(),
-    check('stock').custom(existeArticuloByNombre),
+    check('stock').custom(existeArticuloByStock),
     validarCampos
 ], articulos.articuloPost);
 router.put('/:id', [

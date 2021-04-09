@@ -11,5 +11,15 @@ const existeUsuarioByNombre=async(nombre)=>{
 
     if (existe) throw new Error ('Ya existe una Usuario con ese nombre')
 }
+const existeUsuarioByEmail=async(email)=>{
+    const existe=await Usuario.findOne({email})
 
-export {existeUsuarioById, existeUsuarioByNombre};
+    if (existe) throw new Error ('Ya existe una Usuario con ese email')
+}
+const existeUsuarioByPassword=async(password)=>{
+    const existe=await Usuario.findOne({password})
+
+    if (existe) throw new Error ('Ya existe una Usuario con ese password')
+}
+
+export {existeUsuarioById, existeUsuarioByNombre,existeUsuarioByEmail,existeUsuarioByPassword};

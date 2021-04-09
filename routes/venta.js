@@ -3,7 +3,12 @@ import { check } from 'express-validator';
 import {ventas} from '../controllers/venta.js';
 import { existeVentaById } from '../db-helpers/venta.js';
 import { validarCampos } from '../middlewares/validarCampos.js';
-import { existeVentaByNombre } from '../db-helpers/venta.js';
+import { existeVentaByUsuario } from '../db-helpers/venta.js';
+import { existeVentaByPersona } from '../db-helpers/venta.js';
+import { existeVentaByDetalles } from '../db-helpers/venta.js';
+import { existeVentaByImpuesto } from '../db-helpers/venta.js';
+import { existeVentaByTotal } from '../db-helpers/venta.js';
+
 import {validarJWT} from '../middlewares/validar-JWT.js'
 const router=Router();
 router.get('/',[
@@ -18,15 +23,15 @@ router.get('/:id',[
 ],ventas.ventasById);
 router.post('/',[
     check('usuario', 'El usuario es obligatorio para su Venta').not().isEmpty(),
-    check('usuario').custom(existeVentaByNombre),
-    check('persona', 'El persona es obligatorio para su Venta').not().isEmpty(),
-    check('persona').custom(existeVentaByNombre),
+    check('usuario').custom(existeVentaByUsuario),
+    check('persona', 'La persona es obligatorio para su Venta').not().isEmpty(),
+    check('persona').custom(existeVentaByPersona),
     check('detalles', 'El detalle es obligatorio para su Venta').not().isEmpty(),
-    check('detalles').custom(existeVentaByNombre),
+    check('detalles').custom(existeVentaByDetalles),
     check('impuesto', 'El impuesto es obligatorio para su Venta').not().isEmpty(),
-    check('impuesto').custom(existeVentaByNombre),
+    check('impuesto').custom(existeVentaByImpuesto),
     check('total', 'El total es obligatorio para su Venta').not().isEmpty(),
-    check('total').custom(existeVentaByNombre),
+    check('total').custom(existeVentaByTotal),
     validarCampos
 ],ventas.ventasPost);
 router.put('/:id',[
